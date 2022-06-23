@@ -1,0 +1,10 @@
+.comment {
+    border: 1px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.avatar {
+    height: 50px;
+    width: 50px;
+}
