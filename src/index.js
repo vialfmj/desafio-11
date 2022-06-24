@@ -6,13 +6,19 @@ const httpServer = createServer(app)
 const io = new Server(httpServer, {})
 const { config } = require("./config")
 const path = require("path")
-
+const session = require("express-session")
 
 const { mongoose } = require("./database/mongodb")
 const { arrayModel, messageModel } = require("./models/messages")
 const normalizar = require("../src/utils/normalizr")
 
 
+//session setup
+app.use(session({
+    secret: 'palbrasecreta',
+    resave: true,
+    saveUninitialized:true
+}))
 
 app.set("views", path.join(__dirname, 'views'))
 app.set('view engine', 'ejs');

@@ -37,7 +37,11 @@ formData.addEventListener("submit", e => {
     })
 })
 socket.on("server:sendList",async (list)=> {
+    let norm = (JSON.stringify(list).length)
     let listDenormalize = denormalize(list.result, messagesSchema, list.entities)
+    let denorm = (JSON.stringify(listDenormalize).length)
+    let compresion = (norm/denorm)*100
+    displayCompression(compresion.toFixed(2))
     let arrayMessages = listDenormalize.messages
     deployMessagesTab(arrayMessages)
 })
@@ -47,6 +51,13 @@ socket.on("server:updateList",async (list) => {
     let lastMessage = arrayMessages.pop()
     updateMessages(lastMessage)
 })
+const displayCompression = (compresion) => {
+    let compressionContainer = document.querySelector("#compression")
+    compressionContainer.innerHTML = `
+    <h2>Compresion de mensajes: ${compresion}%</h2>`
+
+
+}
 updateMessages = (lastMessage)=> {
     let messagesList = document.querySelector("#historyContainer")
     messagesList.append(messageDiv(lastMessage))
