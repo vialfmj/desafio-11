@@ -6,7 +6,7 @@ const httpServer = createServer(app)
 const io = new Server(httpServer, {})
 const path = require("path")
 const session = require("express-session")
-const { config,mongo_atlas } = require("./config")
+const { config,mongo_atlas, facebook_config } = require("./config")
 
 const {mongoose} = require("../src/database/mongodb")
 const { arrayModel, messageModel } = require("./models/messages")
@@ -47,8 +47,8 @@ app.use(passport.session());
 const FacebookStrategy = require("passport-facebook").Strategy;
 
 passport.use(new FacebookStrategy({
-    clientID: "738603320716203",
-    clientSecret: "a782aac00a8206062c0f776b5aa2e6d2",
+    clientID: facebook_config.fb_client_id,
+    clientSecret: facebook_config.fb_client_secret,
     callbackURL: "/auth/facebook/callback/",
     profileFields:['id', 'displayName' , 'photos', 'email']
     

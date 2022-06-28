@@ -13,8 +13,13 @@ let mongo_atlas = {
     db_user: process.env.MONGO_ATLAS_USER,
     db_pass: process.env.MONGODB_ATLAS_PASS
 }
+let facebook_config = {
+    fb_client_id: process.env.FACEBOOK_CLIENTID,
+    fb_client_secret:process.env.FACEBOOK_CLIENTSECRET
+}
 module.exports = {
     config,
     mongo_db,
-    mongo_atlas
+    mongo_atlas,
+    facebook_config
 }
