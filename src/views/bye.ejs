@@ -9,11 +9,11 @@
 </head>
 <body>
     <div class="container bg-secondary d-flex justify-content-center">
-        <h2>Hasta Luego <%= user %> </h2>
+        <h2>Hasta Luego <%= user.name %> </h2>
     </div>
     <script>
         setTimeout(() => {
-            location.href="/login";
+            location.href="/logout";
 }, 2000);
     </script>
 </body>

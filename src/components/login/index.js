@@ -8,12 +8,12 @@ module.exports = app => {
         res.redirect("/")
     })
     app.get("/bye", (req,res,next) => {
-        res.render("bye", {user: req.session.user})
+        res.render("bye", {user: req.user})
     })
     app.get("/logout",async (req,res,next) => {
         req.session.destroy(err => {
             if(!err)
-            res.send("logout ok")
+            res.redirect("/")
             else
             res.send("ocurrio un error al desloguear")
 

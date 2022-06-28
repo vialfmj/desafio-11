@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Informacion</h1>
+    </div>
+    <div class="container">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Dato</th>
+                <th scope="col">Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-primary">
+                <th scope="row">Argumentos de Entrada  </th>
+                <td>
+                    <% datos.argumentosDeEntrada.forEach(function(dato){ %>
+                        <%= dato %>
+                        <br>
+                        <% }); %>
+                </td>
+                <!-- <td><%= datos.argumentosDeEntrada %></td> -->
+              </tr>
+              <tr class="table-primary">
+                <th scope="row">Nombre de la plataforma  </th>
+                <td><%= datos.nombreDeLaPlataforma %></td>
+              </tr>
+              <tr class="table-primary">
+                <th scope="row">Version de NodeJs  </th>
+                <td><%= datos.versionDeNodeJs %></td>
+              </tr>
+              <tr class="table-primary">
+                <th scope="row">Memoria total reservada  </th>
+                <td><%= datos.memoriaTotalReservada %></td>
+              </tr>
+              <tr class="table-primary">
+                <th scope="row">Path de ejecucion  </th>
+                <td><%= datos.pathDeEjecucion %></td>
+              </tr>
+              <tr class="table-primary">
+                <th scope="row">Process Id  </th>
+                <td><%= datos.processId %></td>
+              </tr>
+              <tr class="table-primary">
+                <th scope="row">Carpeta del proyecto  </th>
+                <td><%= datos.carpetaDelProyecto %></td>
+              </tr>
+              
+             
+              
+             
+             
+             
+              
+              
+              
+              
+            </tbody>
+          </table>
+    </div>
+</body>
+</html>
+

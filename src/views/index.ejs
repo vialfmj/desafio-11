@@ -21,9 +21,12 @@
         <% if(user){ %>
             <div class="container row bg-secondary mb-3  userContainer" id="userContainer">
                 <div class="col-md-6">
-                    <h2>Bienvenido <%= user %>  </h2>
+                    <h2>Bienvenido <%= user.name %>  </h2>
                 </div>
-                <div class="col-md-6 d-flex justify-content-end">
+                <div class="col-md-2">
+                    <img src="<%= user.photo %> " alt="">
+                </div>
+                <div class="col-md-4 d-flex justify-content-end">
                     <a href="/bye">
                         <button class="btn btn-primary">Logout</button>
                     </a>
