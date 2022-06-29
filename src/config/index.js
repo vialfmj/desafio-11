@@ -1,9 +1,9 @@
 require("dotenv").config()
 const yargs = require("yargs/yargs")(process.argv.slice(2)).argv
 
-
 let config= {
-    port: yargs.port || 8080
+    port: process.env.PORT || yargs.port || 8080,
+    mode: process.env.MODE || yargs.mode || 'FORK'
 }
 let mongo_db = {
     uri: process.env.MONGO_DB_URI,

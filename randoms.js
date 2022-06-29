@@ -55,10 +55,6 @@ process.on("message",async msg => {
   if(msg.msg === "empezar"){
     obj = await startProgram(Number(msg.cant))
     process.send({obj: obj})
-    /* response = await startProgram()
-    process.send({response: response}) */
+
   }
-/*   let obj = await startProgram()
-  process.send()
-  return JSON.stringify(obj) */
 })

@@ -6,15 +6,49 @@ const httpServer = createServer(app)
 const io = new Server(httpServer, {})
 const path = require("path")
 const session = require("express-session")
-const { config,mongo_atlas, facebook_config } = require("./config")
+const { 
+        config,
+        mongo_atlas,
+        facebook_config,
+        } = require("./config")
+const numCpus = require("os").cpus().length
 
 const {mongoose} = require("../src/database/mongodb")
 const { arrayModel, messageModel } = require("./models/messages")
 const fbUserModel = require("./models/user")
 const normalizar = require("../src/utils/normalizr")
+const cluster = require("cluster")
+
+
+
+
+
+//iniciando los clusters
+
+if(config.mode === 'FORK'){
+    console.log("iniciando en modo fork")
+    httpServer.listen(config.port)
+    console.log(`Server on http://localhost:${config.port} || master PID -> ${process.pid}`)
+}
+if(config.mode === 'CLUSTER'){
+    console.log("iniciando en modo cluster")
+    if(cluster.isMaster){
+        console.log(`master PID -> ${process.pid}`)
+        for(let i = 0; i < numCpus; i++){
+            cluster.fork()
+        }
+    }
+    else{
+        httpServer.listen(config.port)
+        console.log(`Server on http://localhost:${config.port} || Worker: ${process.pid}`)
+    }
+}
+
+
+
+
 
 //session setup
-
 let {db_user,db_pass} = mongo_atlas
 const MongoStore = require("connect-mongo")
 const advancedOptions = {useNewUrlParser:true, useUnifiedTopology:true }
@@ -30,15 +64,6 @@ app.use(session({
         maxAge: 600000
     }
 }))
-/* app.use(session({
-    secret: 'palbrasecreta',
-    resave: true,
-    saveUninitialized:true,
-    cookie: {
-        maxAge: 600000
-    }
-})) */
-
 
 //passport
 const passport = require("passport")
@@ -89,7 +114,7 @@ app.get('/auth/facebook/callback',
 
 app.set("views", path.join(__dirname, 'views'))
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname + "/public"));
+//app.use(express.static(__dirname + "/public"));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 const isAuth = (req,res,next) => {
@@ -117,6 +142,7 @@ app.get("/",isAuth, (req, res, next) => {
     console.log("req ->", req.user)
     res.render("index", {user: req.user} )
 })
+
 
 io.on("connection", async socket => {
 
@@ -166,5 +192,5 @@ io.on("connection", async socket => {
         }
     })
 })
-httpServer.listen(config.port)
-console.log(`Server on http://localhost:${config.port}`)
+/* httpServer.listen(config.port)
+console.log(`Server on http://localhost:${config.port}`) */

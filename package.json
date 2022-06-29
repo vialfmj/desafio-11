@@ -7,13 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/",
     "start": "node src/",
-    "pruebainfo": "nodemon src/ --barcos=4 --aviones=3 --port=4001"
+    "nodemoncluster": "nodemon src/ --mode=CLUSTER",
+    "nodemonfork": "nodemon src/ --mode=FORK"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bootswatch": "^5.1.3",
+    "cluster": "^0.7.7",
     "connect-mongo": "^4.6.0",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",

@@ -1,25 +1,31 @@
 //const randomNumbersService = require("../service/randomNumbersService")
-const {fork} = require("child_process")
+const fork = require("child_process").fork
 const forked = fork("randoms.js")
 
 class randomNumbersController {
     getNumbers = async (req, res, next) => {
-        let cantToCalculate = 100000000
-        let {cant} = req.query
-        if(cant)
-        cantToCalculate = cant
-        let obj
-        forked.send({
-            msg: "empezar",
-            cant: cantToCalculate
-        })
-        forked.on("message", async response => {
-            obj = response.obj
-            res.json(obj)
+        console.log("pid:  ->", process.pid )
+        try{
+            let cantToCalculate = 100000000
+            let { cant } = req.query
+            if (cant)
+                cantToCalculate = cant
+            let obj
+            forked.send({
+                msg: "empezar",
+                cant: cantToCalculate
+            })
+            forked.on("message", async response => {
+                try {
+                    res.json(response.obj)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            )
+        }catch(error){
+            throw error
         }
-        )
-/*         let response  = await randomNumbersService.getNumbers()
-        console.log(response) */
     }
 }
 
