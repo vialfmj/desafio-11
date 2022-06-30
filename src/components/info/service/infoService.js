@@ -25,6 +25,7 @@ let datos = {
 
 class InfoService {
     getInfo = async () => {
+        console.log(datos)
         return datos
     }
 }

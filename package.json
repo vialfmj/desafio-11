@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node benchmark.js",
     "dev": "nodemon src/",
-    "start": "node src/",
+    "start": "0x src/index.js",
     "nodemoncluster": "nodemon src/ --mode=CLUSTER",
     "nodemonfork": "nodemon src/ --mode=FORK"
   },
@@ -14,8 +14,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "autocannon": "^7.9.0",
     "bootswatch": "^5.1.3",
     "cluster": "^0.7.7",
+    "compression": "^1.7.4",
     "connect-mongo": "^4.6.0",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
@@ -26,6 +28,7 @@
     "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",
     "socket.io": "^4.5.1",
+    "winston": "^3.8.0",
     "yargs": "^17.5.1"
   },
   "devDependencies": {

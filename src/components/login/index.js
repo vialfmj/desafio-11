@@ -1,7 +1,13 @@
+const httpLogger = require("../../utils/middlewares/httpLogger")
+const logger = require("../../utils/loggers/winston")
 module.exports = app => {
-    app.get("/login", (req,res,next) =>{
+    app.get("/login" , (req,res,next) =>{
+        try{
         console.log("pid ->", process.pid)
         res.render("login")
+        }catch(error){
+            logger.error("error en login")
+        }
     })
     app.post("/login", async (req,res,next) => {
         let {name} = req.body

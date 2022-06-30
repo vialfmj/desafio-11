@@ -3,7 +3,8 @@ const yargs = require("yargs/yargs")(process.argv.slice(2)).argv
 
 let config= {
     port: process.env.PORT || yargs.port || 8080,
-    mode: process.env.MODE || yargs.mode || 'FORK'
+    mode: process.env.MODE || yargs.mode || 'FORK',
+    NODE_ENV: process.env.NODE_ENV || 'development'
 }
 let mongo_db = {
     uri: process.env.MONGO_DB_URI,

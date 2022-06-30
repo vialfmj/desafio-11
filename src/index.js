@@ -13,6 +13,9 @@ const {
         } = require("./config")
 const numCpus = require("os").cpus().length
 
+const logger = require("./utils/loggers/winston")
+const {httpErrorLogger, httpLogger} = require("./utils/middlewares/httpLogger")
+
 const {mongoose} = require("../src/database/mongodb")
 const { arrayModel, messageModel } = require("./models/messages")
 const fbUserModel = require("./models/user")
@@ -23,15 +26,17 @@ const cluster = require("cluster")
 
 
 
+
 //iniciando los clusters
 
 if(config.mode === 'FORK'){
-    console.log("iniciando en modo fork")
+    logger.info("inciando en modo fork")
+    //console.log("iniciando en modo fork")
     httpServer.listen(config.port)
     console.log(`Server on http://localhost:${config.port} || master PID -> ${process.pid}`)
 }
 if(config.mode === 'CLUSTER'){
-    console.log("iniciando en modo cluster")
+    logger.info("iniciando en modo cluster")
     if(cluster.isMaster){
         console.log(`master PID -> ${process.pid}`)
         for(let i = 0; i < numCpus; i++){
@@ -111,10 +116,10 @@ app.get('/auth/facebook/callback',
 
 
 
-
+//middlewares
 app.set("views", path.join(__dirname, 'views'))
 app.set('view engine', 'ejs');
-//app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public"));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 const isAuth = (req,res,next) => {
@@ -138,11 +143,15 @@ passport.serializeUser(function(user, done) {
 const serverRoutes = require("./routes")
 serverRoutes(app)
 
-app.get("/",isAuth, (req, res, next) => {
+
+app.get("/",httpLogger,isAuth, (req, res, next) => {
     console.log("req ->", req.user)
     res.render("index", {user: req.user} )
 })
 
+app.get("/*",httpErrorLogger , (req,res) => {
+    res.render("error_page")
+})
 
 io.on("connection", async socket => {
 
@@ -151,7 +160,7 @@ io.on("connection", async socket => {
         const resultado = normalizar(array)
         socket.emit("server:sendList", resultado)
     }
-    console.log("newConnection", socket.id)
+    logger.info("newConnection", socket.id)
     socket.on("client:newMessage", async data => {
         let exists = await arrayModel.findById("mensajes")
         if (!exists) {
@@ -192,5 +201,3 @@ io.on("connection", async socket => {
         }
     })
 })
-/* httpServer.listen(config.port)
-console.log(`Server on http://localhost:${config.port}`) */
